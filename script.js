@@ -57,6 +57,9 @@ let questions = [
     }
 ];
 
+let currentQuestion = 0;
+let rightQuestions = 0;
+
 
 function init() {
     document.getElementById('amountQuestion').innerHTML = questions.length;
@@ -66,12 +69,25 @@ function init() {
 
 
 function showQuestion() {
-    document.getElementById('questionText').innerHTML = questions[0]['question'];
-    document.getElementById('answer_1').innerHTML = questions[0]['answer_1'];
-    document.getElementById('answer_2').innerHTML = questions[0]['answer_2'];
-    document.getElementById('answer_3').innerHTML = questions[0]['answer_3'];
-    document.getElementById('answer_4').innerHTML = questions[0]['answer_4'];
+    if (currentQuestion >= questions.length) {
+        document.getElementById('cardBody').innerHTML = /*html*/ `<img src="img/brain-result.png" class="card-img-top resultImg" alt="...">
+        <h5 class="card-title textCenter">Quiz beendet!</h5>
+        <span class="textCenter">
+            Du hast <b>${rightQuestions}</b> Fragen von <b>${questions.length}</b> richtig beantwortet.
+        </span>
+        `;
+    } else {
+        document.getElementById('numberQuestion').innerHTML = currentQuestion + 1;
+
+        document.getElementById('questionText').innerHTML = questions[currentQuestion]['question'];
+        document.getElementById('answer_1').innerHTML = questions[currentQuestion]['answer_1'];
+        document.getElementById('answer_2').innerHTML = questions[currentQuestion]['answer_2'];
+        document.getElementById('answer_3').innerHTML = questions[currentQuestion]['answer_3'];
+        document.getElementById('answer_4').innerHTML = questions[currentQuestion]['answer_4'];
+    }
+
 }
+
 
 
 function answer(selection) {
@@ -79,9 +95,27 @@ function answer(selection) {
 
     if (selectionQuestNumber == questions[0]['right_answer']) {
         document.getElementById(selection).parentNode.classList.add('bg-success');
+        rightQuestions++;
     } else {
         document.getElementById(selection).parentNode.classList.add('bg-danger');
         document.getElementById(`answer_${questions[0]['right_answer']}`).parentNode.classList.add('bg-success');
     }
     document.getElementById('nextButton').disabled = false;
+}
+
+
+function nextQuestion() {
+    currentQuestion++;
+
+    document.getElementById('nextButton').disabled = true;
+    document.getElementById('answer_1').parentNode.classList.remove('bg-success')
+    document.getElementById('answer_1').parentNode.classList.remove('bg-danger')
+    document.getElementById('answer_2').parentNode.classList.remove('bg-success')
+    document.getElementById('answer_2').parentNode.classList.remove('bg-danger')
+    document.getElementById('answer_3').parentNode.classList.remove('bg-success')
+    document.getElementById('answer_3').parentNode.classList.remove('bg-danger')
+    document.getElementById('answer_4').parentNode.classList.remove('bg-success')
+    document.getElementById('answer_4').parentNode.classList.remove('bg-danger')
+
+    showQuestion();
 }
