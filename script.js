@@ -69,15 +69,15 @@ function init() {
 
 
 function showQuestion() {
-    if (currentQuestion >= questions.length) {
-        document.getElementById('cardBody').innerHTML = /*html*/ `<img src="img/brain-result.png" class="card-img-top resultImg" alt="...">
-        <h5 class="card-title textCenter">Quiz beendet!</h5>
-        <span class="textCenter">
-            Du hast <b>${rightQuestions}</b> Fragen von <b>${questions.length}</b> richtig beantwortet.
-        </span>
-        `;
-    } else {
+    if (currentQuestion >= questions.length) { //show end screen
+        document.getElementById('cardBody').innerHTML = innerHTML(rightQuestions, questions.length);
+    } else { //show question
         document.getElementById('numberQuestion').innerHTML = currentQuestion + 1;
+
+        let percent = Math.round(currentQuestion / questions.length * 100);
+
+        document.getElementById('progressBar').innerHTML = `${percent}%`;
+        document.getElementById('progressBar').style = `width: ${percent}%`;
 
         document.getElementById('questionText').innerHTML = questions[currentQuestion]['question'];
         document.getElementById('answer_1').innerHTML = questions[currentQuestion]['answer_1'];
@@ -88,6 +88,20 @@ function showQuestion() {
 
 }
 
+
+function innerHTML(rightQuestions, questionsLength) {
+    return /*html*/ `
+    <img src="img/brain-result.png" class="card-img-top resultImg">
+    <div class="progress" role="progressbar" aria-label="Example with label">
+            <div id="progressBar" class="progress-bar" style="width: 100%">100%</div>
+        </div>
+    <h5 class="card-title textCenter">Quiz beendet!</h5>
+    <span class="textCenter">
+        Du hast <b>${rightQuestions}</b> Fragen von <b>${questionsLength}</b> richtig beantwortet.
+    </span>
+    <button onclick="restartGame()" class="btn btn-warning">Erneut spielen</button>
+    `;
+}
 
 
 function answer(selection) {
@@ -118,4 +132,12 @@ function nextQuestion() {
     document.getElementById('answer_4').parentNode.classList.remove('bg-danger')
 
     showQuestion();
+}
+
+
+function restartGame() {
+    currentQuestion = 0;
+    rightQuestions = 0;
+    // document.getElementById('cardBody').innerHTML = ;
+    init();
 }

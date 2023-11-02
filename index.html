@@ -28,6 +28,9 @@
     <div class="container">
         <div id="cardBody" class="card quizCard">
             <img src="img/quiz.png" class="card-img-top" alt="...">
+            <div class="progress" role="progressbar" aria-label="Example with label">
+                <div id="progressBar" class="progress-bar" style="width: 0%">25%</div>
+            </div>
             <div class="card-body">
                 <h5 class="card-title" id="questionText"></h5>
 
@@ -64,7 +67,8 @@
                     <span>
                         <b id="numberQuestion"></b> von <b id="amountQuestion"></b> Fragen
                     </span>
-                    <button onclick="nextQuestion()" class="btn btn-warning" disabled id="nextButton">Nächste Frage</button>
+                    <button onclick="nextQuestion()" class="btn btn-warning" disabled id="nextButton">Nächste
+                        Frage</button>
                 </div>
             </div>
         </div>
